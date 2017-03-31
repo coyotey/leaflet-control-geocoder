@@ -1,5 +1,5 @@
 var L = require('leaflet'),
-	Nominatim = require('./geocoders/nominatim').class;
+	Sputnik = require('./geocoders/sputnik').class;
 
 module.exports = {
 	class: L.Control.extend({
@@ -8,8 +8,8 @@ module.exports = {
 			collapsed: true,
 			expand: 'click',
 			position: 'topright',
-			placeholder: 'Search...',
-			errorMessage: 'Nothing found.',
+			placeholder: 'Поиск...',
+			errorMessage: 'Не найдено',
 			suggestMinLength: 3,
 			suggestTimeout: 250,
 			defaultMarkGeocode: true
@@ -20,7 +20,7 @@ module.exports = {
 		initialize: function (options) {
 			L.Util.setOptions(this, options);
 			if (!this.options.geocoder) {
-				this.options.geocoder = new Nominatim();
+				this.options.geocoder = new Sputnik();
 			}
 
 			this._requestCount = 0;
@@ -120,7 +120,7 @@ module.exports = {
 				this._map.removeLayer(this._geocodeMarker);
 			}
 
-			this._geocodeMarker = new L.Marker(result.center)
+			this._geocodeMarker = new (L.sm.Marker || L.Marker)(result.center)
 				.bindPopup(result.html || result.name)
 				.addTo(this._map)
 				.openPopup();

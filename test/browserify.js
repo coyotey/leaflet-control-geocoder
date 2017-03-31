@@ -2,7 +2,7 @@ var L = require('leaflet');
 require('../dist/Control.Geocoder');
 
 var map = L.map('map').setView([0, 0], 2),
-    geocoder = L.Control.Geocoder.mapzen('search-DopSHJw'),
+    geocoder = L.Control.Geocoder.sputnik(),
     control = L.Control.geocoder({
         geocoder: geocoder
     }).addTo(map),

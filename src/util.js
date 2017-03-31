@@ -38,6 +38,16 @@ var L = require('leaflet'),
 	})();
 
 module.exports = {
+	extract: function extract(root, path, def){
+		var key,
+			val = !!root ? root : this,
+			arr = String(path).replace(/'|"|\]/g,'').replace(/\[/g,'.').split('.');
+		while ((key = arr.shift()) && 'object' == typeof val && val) {
+			val = 'undefined' == typeof val[key]? ('undefined' == typeof def? false : def) : val[key];
+		}
+		return val;
+	},
+
 	jsonp: function(url, params, callback, context, jsonpParam) {
 		var callbackId = '_l_geocoder_' + (lastCallbackId++);
 		params[jsonpParam || 'callback'] = callbackId;
